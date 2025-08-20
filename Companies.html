@@ -4,7 +4,253 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Companies - Job Portal</title>
-    <link rel="stylesheet" href="companies.css">
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Header styles */
+        header {
+            background: linear-gradient(135deg, #3498db, #2c3e50);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        header h1 {
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        nav a:hover, nav a.active {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Companies section */
+        .companies-section {
+            padding: 3rem 0;
+        }
+        
+        .companies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+        
+        .company-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+        
+        .company-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .company-logo {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #3498db;
+        }
+        
+        .company-card h3 {
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        
+        .company-card p {
+            margin-bottom: 8px;
+            color: #7f8c8d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+        
+        .view-details {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: background 0.3s;
+        }
+        
+        .view-details:hover {
+            background: #2980b9;
+        }
+        
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            overflow: auto;
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 700px;
+            position: relative;
+            animation: modalopen 0.4s;
+        }
+        
+        @keyframes modalopen {
+            from {opacity: 0; transform: translateY(-50px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            color: #aaa;
+            cursor: pointer;
+        }
+        
+        .close-modal:hover {
+            color: #000;
+        }
+        
+        .company-info h3 {
+            margin: 20px 0 10px;
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 5px;
+        }
+        
+        .company-info ul {
+            list-style-type: none;
+            padding-left: 20px;
+        }
+        
+        .company-info li {
+            margin-bottom: 8px;
+            position: relative;
+        }
+        
+        .company-info li:before {
+            content: "•";
+            color: #3498db;
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+        
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        
+        .tech-tag {
+            background: #e8f4fc;
+            color: #3498db;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .career-link {
+            display: inline-block;
+            background: #27ae60;
+            color: white;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            transition: background 0.3s;
+        }
+        
+        .career-link:hover {
+            background: #219653;
+        }
+        
+        /* Footer styles */
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 1.5rem 0;
+            margin-top: 2rem;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            header .container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .companies-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+    </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
@@ -135,14 +381,76 @@
         const companyData = {
             google: {
                 name: "Google",
-                description: "Google is a multinational technology company specializing in internet-related services and products.",
-                benefits: ["Competitive salary", "Health insurance", "Free meals", "Flexible work hours", "Stock options"],
-                culture: "Innovation-driven culture with emphasis on creativity and collaboration",
-                openPositions: ["Software Engineer", "Product Manager", "Data Scientist", "UX Designer"],
-                technologies: ["Python", "Java", "Go", "Angular", "TensorFlow"],
+                description: "Google is a multinational technology company specializing in internet-related services and products. Founded in 1998 by Larry Page and Sergey Brin, Google has grown to become one of the world's most valuable companies.",
+                benefits: ["Competitive salary", "Health insurance", "Free meals", "Flexible work hours", "Stock options", "Parental leave", "Gym membership"],
+                culture: "Innovation-driven culture with emphasis on creativity, collaboration, and 'moonshot' thinking. Employees are encouraged to spend 20% of their time on personal projects.",
+                openPositions: ["Software Engineer", "Product Manager", "Data Scientist", "UX Designer", "Technical Program Manager", "Research Scientist"],
+                technologies: ["Python", "Java", "Go", "Angular", "TensorFlow", "Kubernetes", "Google Cloud Platform"],
                 website: "https://careers.google.com"
             },
-            // Add data for other companies
+            microsoft: {
+                name: "Microsoft",
+                description: "Microsoft Corporation is an American multinational technology company that develops, manufactures, licenses, supports, and sells computer software, consumer electronics, personal computers, and related services.",
+                benefits: ["Health insurance", "Retirement plan", "Stock awards", "Professional development", "Wellness programs", "Employee discounts"],
+                culture: "Microsoft's culture emphasizes a growth mindset, diversity and inclusion, and empowering every person and organization on the planet to achieve more.",
+                openPositions: ["Software Development Engineer", "Cloud Solution Architect", "Data Analyst", "Product Marketing Manager", "Security Engineer"],
+                technologies: [".NET", "C#", "Azure", "TypeScript", "React", "SQL Server", "Power BI"],
+                website: "https://careers.microsoft.com"
+            },
+            apple: {
+                name: "Apple",
+                description: "Apple Inc. is an American multinational technology company that designs, develops, and sells consumer electronics, computer software, and online services.",
+                benefits: ["Employee stock purchase plan", "Health insurance", "Product discounts", "Retirement plan", "Parental leave", "Wellness reimbursement"],
+                culture: "Apple's culture focuses on innovation, simplicity, and attention to detail. The company values secrecy and vertical integration in its products.",
+                openPositions: ["Hardware Engineer", "iOS Developer", "Machine Learning Engineer", "Supply Chain Manager", "Retail Specialist"],
+                technologies: ["Swift", "Objective-C", "Xcode", "macOS", "iOS", "Metal", "Core ML"],
+                website: "https://www.apple.com/careers/"
+            },
+            amazon: {
+                name: "Amazon",
+                description: "Amazon.com, Inc. is an American multinational technology company focusing on e-commerce, cloud computing, digital streaming, and artificial intelligence.",
+                benefits: ["Health insurance", "401(k) with company match", "Employee discount", "Parental leave", "Career choice program", "Stock options"],
+                culture: "Amazon's leadership principles guide its culture, including customer obsession, ownership, bias for action, and delivering results.",
+                openPositions: ["Software Development Engineer", "Solutions Architect", "Product Manager", "Operations Manager", "Data Engineer"],
+                technologies: ["Java", "AWS", "DynamoDB", "React", "Node.js", "Python", "Lambda"],
+                website: "https://www.amazon.jobs"
+            },
+            meta: {
+                name: "Meta",
+                description: "Meta Platforms, Inc., formerly known as Facebook, Inc., is a technology conglomerate based in Menlo Park, California, focusing on social media, virtual reality, and other technology products.",
+                benefits: ["Competitive salary", "Stock options", "Health insurance", "Parental leave", "Flexible work hours", "Wellness stipend"],
+                culture: "Meta's culture emphasizes moving fast, being bold, focusing on impact, and building social value through connection and community.",
+                openPositions: ["Software Engineer", "Product Designer", "Data Scientist", "UX Researcher", "Technical Program Manager"],
+                technologies: ["React", "GraphQL", "PHP", "Python", "Hack", "PyTorch", "Cassandra"],
+                website: "https://www.meta.com/careers"
+            },
+            netflix: {
+                name: "Netflix",
+                description: "Netflix, Inc. is an American subscription streaming service and production company. Founded in 1997, it offers a library of films and television series through distribution deals and its own productions.",
+                benefits: ["Unlimited vacation", "Top-of-market compensation", "Health insurance", "Parental leave", "Flexible work arrangements", "Stock options"],
+                culture: "Netflix culture is known for its 'Freedom and Responsibility' philosophy, encouraging employee autonomy with high performance expectations.",
+                openPositions: ["Software Engineer", "Content Strategist", "Data Scientist", "UI Designer", "Network Engineer"],
+                technologies: ["Java", "Python", "React", "Node.js", "AWS", "Spinnaker", "Jenkins"],
+                website: "https://jobs.netflix.com"
+            },
+            tesla: {
+                name: "Tesla",
+                description: "Tesla, Inc. is an American electric vehicle and clean energy company based in Austin, Texas. Tesla designs and manufactures electric cars, battery energy storage, solar panels, and related products.",
+                benefits: ["Employee stock purchase plan", "Health insurance", "Parental leave", "Employee vehicle programs", "Retirement plans", "Wellness programs"],
+                culture: "Tesla's culture is mission-driven, focusing on accelerating the world's transition to sustainable energy through innovation and rapid execution.",
+                openPositions: ["Mechanical Engineer", "Software Engineer", "Production Associate", "Supply Chain Analyst", "Energy Specialist"],
+                technologies: ["Python", "C++", "React", "TensorFlow", "AWS", "MATLAB", "ROS"],
+                website: "https://www.tesla.com/careers"
+            },
+            oracle: {
+                name: "Oracle",
+                description: "Oracle Corporation is an American multinational computer technology corporation headquartered in Austin, Texas. The company sells database software and technology, cloud engineered systems, and enterprise software products.",
+                benefits: ["Health insurance", "Retirement plans", "Employee stock purchase plan", "Professional development", "Flexible work arrangements", "Wellness programs"],
+                culture: "Oracle's culture values innovation, customer success, and integrity. The company focuses on providing integrated cloud applications and platform services.",
+                openPositions: ["Software Developer", "Cloud Architect", "Sales Consultant", "Technical Analyst", "Database Administrator"],
+                technologies: ["Java", "Oracle Cloud", "SQL", "JavaScript", "Kubernetes", "Docker", "Linux"],
+                website: "https://www.oracle.com/careers"
+            }
         };
 
         function showCompanyDetails(company) {
